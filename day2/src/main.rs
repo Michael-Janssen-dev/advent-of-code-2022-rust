@@ -21,59 +21,59 @@ enum RPS {
     Scissors
 }
 impl RPS {
-    fn from_str_p1(x: &str) -> RPS{
+    fn from_str_p1(x: &str) -> Self{
         if x == "A" || x == "X" {
-            return RPS::Rock{}
+            return Self::Rock{}
         }
         if x == "B" || x == "Y" {
-            return RPS::Paper{}
+            return Self::Paper{}
         }
-        return RPS::Scissors{}
+        Self::Scissors{}
     }
-    fn from_i32(x: i32) -> RPS {
+    fn from_i32(x: i32) -> Self {
         match x {
-            0 => RPS::Rock{},
-            1 => RPS::Scissors{},
-            _ => RPS::Paper{}
+            0 => Self::Rock{},
+            1 => Self::Scissors{},
+            _ => Self::Paper{}
         }
     }
 
     fn to_i32(&self) -> i32 {
         match self {
-            RPS::Rock{} => 0,
-            RPS::Scissors{} => 1,
-            RPS::Paper{} => 2
+            Self::Rock{} => 0,
+            Self::Scissors{} => 1,
+            Self::Paper{} => 2
         }
     }
 
-    fn from_str_p2(other: &RPS, x: &str) -> RPS{
+    fn from_str_p2(other: &Self, x: &str) -> Self{
         if x == "X" {
-            return RPS::from_i32((other.to_i32() + 1).rem_euclid(3))
+            return Self::from_i32((other.to_i32() + 1).rem_euclid(3))
         }
         if x == "Y" {
-            return RPS::from_i32(other.to_i32())
+            return Self::from_i32(other.to_i32())
         }
-        return RPS::from_i32((other.to_i32() - 1).rem_euclid(3))
+        Self::from_i32((other.to_i32() - 1).rem_euclid(3))
     }
 
-    fn outcome(&self, other: &RPS) -> u32 {
+    fn outcome(&self, other: &Self) -> u32 {
         let mut outcome = 0;
         match self {
-            RPS::Rock{} => {
+            Self::Rock{} => {
                 outcome += 1;
-                if let RPS::Scissors{} = other {
+                if let Self::Scissors{} = other {
                     outcome += 6
                 }
             },
-            RPS::Paper{} => {
+            Self::Paper{} => {
                 outcome += 2;
-                if let RPS::Rock{} = other {
+                if let Self::Rock{} = other {
                     outcome += 6
                 }
             },
-            RPS::Scissors{} => {
+            Self::Scissors{} => {
                 outcome += 3;
-                if let RPS::Paper{} = other {
+                if let Self::Paper{} = other {
                     outcome += 6
                 }
             },
@@ -89,7 +89,7 @@ impl RPS {
 fn part_1(inp: &str) -> u32 {
     inp
         .lines()
-        .map(|x| x.splitn(2, " "))
+        .map(|x| x.splitn(2, ' '))
         .map(|mut x| (x.next().unwrap(), x.next().unwrap()))
         .map(|(x, y)| {
             let (x, y) = (RPS::from_str_p1(x), RPS::from_str_p1(y));
@@ -101,7 +101,7 @@ fn part_1(inp: &str) -> u32 {
 fn part_2(inp: &str) -> u32 {
     inp
         .lines()
-        .map(|x| x.splitn(2, " "))
+        .map(|x| x.splitn(2, ' '))
         .map(|mut x| (x.next().unwrap(), x.next().unwrap()))
         .map(|(x, y)| {
             let x = RPS::from_str_p1(x);
